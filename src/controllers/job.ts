@@ -15,7 +15,7 @@ import logger from "../util/logger";
  */
 export let getJobs = (req: Request, res: Response, next: NextFunction) => {
     const searchTitle = req.query.searchTitle;
-    const searchEmployerName = req.query.searchNric;
+    const searchEmployerName = req.query.searchEmployerName;
 
     const query = Job.find();
 
