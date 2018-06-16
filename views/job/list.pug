@@ -1,0 +1,57 @@
+extends ../layout
+
+
+block content
+  .page-header
+    h3
+      if title2
+        = title2
+      else
+        = title
+    .btn-toolbar(role="toolbar")
+      .btn-group(role="group")
+        a(href='#', onclick='showSearch()' class='btn btn-primary')
+          span.glyphicon.glyphicon-search
+
+  #listing.table-wrap
+    table.table.table-striped
+      thead
+        tr
+          th Nama Jawatan
+          th Nama Majikan
+          th Gaji
+          th Tarikh Tutup
+      tbody
+        each job in job_list
+          tr
+            td 
+              a(href='#', onclick='view(\'' + job._id + '\')') !{job.title}
+            td !{job.employer.name}
+            td !{job.salary}
+            td #{job.closing}
+        else
+          tr
+            td(colspan='4' align='center') Tiada rekod.
+
+  #searchModal.modal.fade(tabindex='-1')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span &times;
+          h4 Carian
+        .modal-body
+          form.form-horizontal(id="searchForm")
+            .form-group
+              label.col-sm-4(for='searchTitle') Nama Jawatan: 
+              .col-sm-7
+                input.form-control(type='text', name='searchTitle', id='searchTitle', placeholder='Search...', value=searchTitle)
+            .form-group
+              label.col-sm-4(for='searchEmployerName') Nama Majikan: 
+              .col-sm-7
+                input.form-control(type='text', name='searchEmployerName', id='searchEmployerName', placeholder='Search...', value=searchEmployerName)
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Tutup
+          button.btn.btn-primary(type='button', onclick="submitSearch()") Hantar
+  
+  include view-modal.pug

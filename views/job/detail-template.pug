@@ -1,0 +1,72 @@
+#customContent
+#standardContent
+  //- .form-group
+  //-   label.col-sm-3.col-xs-3.control-label Nama Jawatan
+  //-   .col-sm-7.col-xs-9
+  //-     strong 
+  //-       span(id='job-title') 
+  //-         if job
+  //-           | !{job.title}
+  .form-group
+    label.col-sm-3.col-xs-3.control-label Keterangan
+    .col-sm-7.col-xs-9
+      strong 
+        span(id='job-description') 
+          if job
+            | !{job.description}
+  .form-group
+    label.col-sm-3.col-xs-3.control-label Nama Majikan
+    .col-sm-7.col-xs-9
+      strong 
+        span(id='job-employer-name')
+          if job
+            | !{job.employer.name}
+  .form-group
+    label.col-sm-3.col-xs-3.control-label Hubungi
+    .col-sm-7.col-xs-9
+      strong 
+        span(id='job-employer-contact')
+          if job
+            | !{job.employer.contact}
+  .form-group
+    label.col-sm-3.col-xs-3.control-label Gaji
+    .col-sm-7.col-xs-9
+      strong 
+        span(id='job-salary')
+          if job
+            | !{job.salary}
+  .form-group
+    label.col-sm-3.col-xs-3.control-label Jenis Kerja
+    .col-sm-7.col-xs-9
+      strong 
+        span(id='job-empType')
+          if job
+            | !{job.empType}
+  .form-group
+    label.col-sm-3.col-xs-3.control-label Bahasa
+    .col-sm-7.col-xs-9
+      strong 
+        span(id='job-language')
+          if job
+            | !{job.language}
+  .form-group
+    label.col-sm-3.col-xs-3.control-label Tempat Kerja
+    .col-sm-7.col-xs-9
+      strong 
+        span(id='job-location')
+          if job
+            | !{job.location}
+  .form-group
+    label.col-sm-3.col-xs-3.control-label Tarikh Tutup
+    .col-sm-7.col-xs-9
+      strong 
+        span(id='job-closing')
+          if job
+            | !{job.closing}
+  .form-group
+    label.col-sm-3.col-xs-3.control-label Lain-lain
+    .col-sm-7.col-xs-9
+      strong 
+        span(id='job-otherInfo')
+          if job
+            | !{job.otherInfo}

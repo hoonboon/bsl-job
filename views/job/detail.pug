@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+  .page-header
+    h3 !{job.title}
+    p Job Id: #{jobId}
+  .form-horizontal.post-preview
+    include detail-template.pug
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        a.btn.btn-warning(href='/jobs') Home
