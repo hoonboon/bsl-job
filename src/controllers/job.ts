@@ -8,6 +8,7 @@ import { sanitizeBody } from "express-validator/filter";
 
 import { default as Job, JobModel } from "../models/Job";
 import logger from "../util/logger";
+import { generateMetaFacebook } from "../util/social";
 
 /**
  * GET /jobs
@@ -84,13 +85,13 @@ export let getJobDetail = (req: Request, res: Response, next: NextFunction) => {
                 res.json(result);
             } else {
                 // meta for facebook
-                // TODO: move into utility module
-                const metaFb: any[] = [];
-                metaFb.push({ property: "og:url", content: jobDb.publishUrl });
-                metaFb.push({ property: "og:type", content: "article" });
-                metaFb.push({ property: "og:title", content: jobDb.title });
-                metaFb.push({ property: "og:description", content: jobDb.description });
-                metaFb.push({ property: "og:image", content: jobDb.publishImgUrl });
+                const metaFb = generateMetaFacebook({
+                    url: jobDb.publishUrl,
+                    type: "article",
+                    title: jobDb.title,
+                    description: jobDb.description,
+                    imageUrl: jobDb.publishImgUrl
+                });
 
                 res.render("job/detail", {
                     title: "Jawatan",
