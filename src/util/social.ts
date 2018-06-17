@@ -22,6 +22,10 @@ export function generateMetaFacebook(meta: MetaFacebook) {
     if (fbPublisher) {
         metaFb.push({ property: "article:publisher", content: fbPublisher });
     }
+    const fbAuthor = process.env.FACEBOOK_AUTHOR;
+    if (fbAuthor) {
+        metaFb.push({ property: "article:author", content: fbAuthor });
+    }
 
     return metaFb;
 }
