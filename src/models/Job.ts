@@ -24,7 +24,9 @@ export type JobModel = mongoose.Document & {
   status: string,
   createdBy: any,
   updatedBy: any,
-  url: string
+  url: string,
+  publishUrl: string,
+  publishImgUrl: string
 };
 
 const jobSchema = new mongoose.Schema({
@@ -78,11 +80,27 @@ jobSchema
     return this.publishEnd ? moment(this.publishEnd).format("YYYY-MM-DD") : "";
 });
 
-// Virtual for Job 's URL
+// Virtual for Job's URL
 jobSchema
 .virtual("url")
 .get(function() {
     return "/job/" + this._id;
+});
+
+// Virtual for Job's Published URL on public site
+jobSchema
+.virtual("publishUrl")
+.get(function() {
+    const baseUrl = process.env.PUBLIC_SITE || "";
+    return baseUrl + "/job/" + this._id;
+});
+
+// Virtual for Job's Published Image URL on public site
+jobSchema
+.virtual("publishImgUrl")
+.get(function() {
+    const baseUrl = process.env.PUBLIC_SITE || "";
+    return baseUrl + "/images/fbBaseImg.jpg";
 });
 
 const Job = mongoose.model("Job", jobSchema);

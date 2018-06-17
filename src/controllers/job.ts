@@ -65,7 +65,7 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
  */
 export let getJobDetail = (req: Request, res: Response, next: NextFunction) => {
     Job.findById(req.params.id)
-    .exec((err, jobDb) => {
+    .exec((err, jobDb: JobModel) => {
         if (err) { return next(err); }
 
         const reqAccept = req.headers.accept;
@@ -83,12 +83,22 @@ export let getJobDetail = (req: Request, res: Response, next: NextFunction) => {
                 result.job = jobDb;
                 res.json(result);
             } else {
+                // meta for facebook
+                // TODO: move into utility module
+                const metaFb: any[] = [];
+                metaFb.push({ property: "og:url", content: jobDb.publishUrl });
+                metaFb.push({ property: "og:type", content: "article" });
+                metaFb.push({ property: "og:title", content: jobDb.title });
+                metaFb.push({ property: "og:description", content: jobDb.description });
+                metaFb.push({ property: "og:image", content: jobDb.publishImgUrl });
+
                 res.render("job/detail", {
                     title: "Jawatan",
                     title2: "Butiran Jawatan",
                     job: jobDb,
                     jobId: jobDb._id,
-                    includeScripts: includeScripts
+                    includeScripts: includeScripts,
+                    metaFb: metaFb
                 });
             }
         } else {
