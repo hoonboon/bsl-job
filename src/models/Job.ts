@@ -101,7 +101,7 @@ jobSchema
 .get(function() {
     const baseUrl = process.env.PUBLIC_SITE || "";
     // TODO: add new field to allow user defined image url
-    return baseUrl + "/images/fbBaseImg.jpg";
+    return baseUrl + "/images/fbProfilePhoto.jpg";
 });
 
 const Job = mongoose.model("Job", jobSchema);
