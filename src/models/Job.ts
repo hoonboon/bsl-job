@@ -100,7 +100,8 @@ jobSchema
 .virtual("publishImgUrl")
 .get(function() {
     const baseUrl = process.env.PUBLIC_SITE || "";
-    return baseUrl + "/images/fbBaseImg.jpg";
+    // TODO: add new field to allow user defined image url
+    return baseUrl + "/images/fbBaseImg_s.jpg";
 });
 
 const Job = mongoose.model("Job", jobSchema);
