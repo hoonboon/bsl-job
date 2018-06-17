@@ -1,3 +1,7 @@
+#postImage
+  if job
+    p
+      img.img-responsive.img-thumbnail.center-block(src!=job.publishImgUrl, alt="Post Image")
 #customContent
 #standardContent
   //- .form-group
@@ -10,10 +14,10 @@
   .form-group
     label.col-sm-3.col-xs-3.control-label Keterangan
     .col-sm-7.col-xs-9
-      strong 
-        span(id='job-description') 
-          if job
-            | !{job.description}
+      if job
+        textarea.form-control.no-border(rows="5") !{job.description}
+      else
+        textarea.form-control.no-border(id="job-description", rows="5")
   .form-group
     label.col-sm-3.col-xs-3.control-label Nama Majikan
     .col-sm-7.col-xs-9
@@ -66,7 +70,7 @@
   .form-group
     label.col-sm-3.col-xs-3.control-label Lain-lain
     .col-sm-7.col-xs-9
-      strong 
-        span(id='job-otherInfo')
-          if job
-            | !{job.otherInfo}
+      if job
+        textarea.form-control.no-border(rows="5") !{job.otherInfo}
+      else
+        textarea.form-control.no-border(id="job-otherInfo", rows="5")

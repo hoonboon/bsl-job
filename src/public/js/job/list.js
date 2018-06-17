@@ -22,6 +22,8 @@ function view(id) {
         let job = json.job;
         $("#modal-title").html(job.title);
 
+        $("#postImage").html("<p><img class=\"img-responsive img-thumbnail center-block\" src=\"" + job.publishImgUrl + "\" alt=\"Post Image\"></p>");
+
         if (job.customContent && job.customContent !== "") {
             let contents = decodeEntities(job.customContent);
             $("#customContent").html(contents);

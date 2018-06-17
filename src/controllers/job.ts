@@ -81,7 +81,7 @@ export let getJobDetail = (req: Request, res: Response, next: NextFunction) => {
 
             if (isJSON) {
                 const result: any = {};
-                result.job = jobDb;
+                result.job = jobDb.apiModel;
                 res.json(result);
             } else {
                 // meta for facebook
@@ -89,7 +89,7 @@ export let getJobDetail = (req: Request, res: Response, next: NextFunction) => {
                     url: jobDb.publishUrl,
                     type: "article",
                     title: jobDb.title,
-                    description: jobDb.description,
+                    description: jobDb.highlights,
                     imageUrl: jobDb.publishImgUrl
                 });
 
