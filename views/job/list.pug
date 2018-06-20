@@ -50,8 +50,16 @@ block content
               label.col-sm-4(for='searchEmployerName') Nama Majikan: 
               .col-sm-7
                 input.form-control(type='text', name='searchEmployerName', id='searchEmployerName', placeholder='Search...', value=searchEmployerName)
+            .form-group
+              label.col-sm-4(for='searchLocation') Tempat Kerja: 
+              .col-sm-7
+                for option in locationOptions
+                  .checkbox-inline
+                    input.checkbox-input(type='checkbox', name='searchLocation', id=option.value, value=option.value checked=option.isSelected)
+                    label(for=option.value) #{option.label}
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Tutup
+          button.btn.btn-warning(type='button', onclick="resetSearchForm()") Padam
           button.btn.btn-primary(type='button', onclick="submitSearch()") Hantar
   
   include view-modal.pug

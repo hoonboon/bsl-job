@@ -9,6 +9,7 @@ import { sanitizeBody } from "express-validator/filter";
 import { default as Job, JobModel } from "../models/Job";
 import logger from "../util/logger";
 import { generateMetaFacebook } from "../util/social";
+import * as selectOption from "../util/selectOption";
 
 /**
  * GET /jobs
@@ -17,6 +18,16 @@ import { generateMetaFacebook } from "../util/social";
 export let getJobs = (req: Request, res: Response, next: NextFunction) => {
     const searchTitle = req.query.searchTitle;
     const searchEmployerName = req.query.searchEmployerName;
+
+    if (!(req.query.searchLocation instanceof Array)) {
+        if (typeof req.query.searchLocation === "undefined") {
+            req.query.searchLocation = [];
+        }
+        else {
+            req.query.searchLocation = new Array(req.query.searchLocation);
+        }
+    }
+    const searchLocation = req.query.searchLocation as string[];
 
     const query = Job.find();
 
@@ -38,9 +49,21 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
         query.where("nric").regex(regex);
     }
 
+    if (searchLocation && searchLocation.length > 0) {
+        query.where("location").in(searchLocation);
+    }
+
     query.where("status").in(["A"]);
 
     query.sort([["publishStart", "descending"], ["createdAt", "descending"]]);
+
+    const locationOptions = selectOption.OPTIONS_LOCATION();
+
+    locationOptions.forEach(option => {
+        if (searchLocation.indexOf(option.value) > -1) {
+            option.isSelected = true;
+        }
+    });
 
     // client side script
     const includeScripts = ["/js/job/list.js"];
@@ -55,7 +78,9 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
                 job_list: item_list,
                 searchTitle: searchTitle,
                 searchEmployerName: searchEmployerName,
-                includeScripts: includeScripts
+                searchLocation: searchLocation,
+                includeScripts: includeScripts,
+                locationOptions: locationOptions
             });
         });
 };

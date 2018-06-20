@@ -10,6 +10,12 @@ function submitSearch() {
     $("#searchForm").submit();
 }
 
+function resetSearchForm() {
+    $("#searchTitle").val("");
+    $("#searchEmployerName").val("");
+    $("input:checkbox").prop("checked", false);
+}
+
 function decodeEntities(encodedString) {
     let textArea = document.createElement("textarea");
     textArea.innerHTML = encodedString;

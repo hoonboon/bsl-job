@@ -13,56 +13,56 @@
   //-           | !{job.title}
   .form-group
     label.col-sm-3.col-xs-3.control-label Keterangan
-    .col-sm-7.col-xs-9
+    .col-sm-7.col-xs-9.form-control-static
       if job
-        textarea.form-control.no-border(rows="5") !{job.description}
+        textarea.form-control.no-border(rows="8") !{job.description}
       else
         textarea.form-control.no-border(id="job-description", rows="5")
   .form-group
     label.col-sm-3.col-xs-3.control-label Nama Majikan
-    .col-sm-7.col-xs-9
+    .col-sm-7.col-xs-9.form-control-static
       strong 
         span(id='job-employer-name')
           if job
             | !{job.employer.name}
   .form-group
     label.col-sm-3.col-xs-3.control-label Hubungi
-    .col-sm-7.col-xs-9
+    .col-sm-7.col-xs-9.form-control-static
       strong 
         span(id='job-employer-contact')
           if job
             | !{job.employer.contact}
   .form-group
     label.col-sm-3.col-xs-3.control-label Gaji
-    .col-sm-7.col-xs-9
+    .col-sm-7.col-xs-9.form-control-static
       strong 
         span(id='job-salary')
           if job
             | !{job.salary}
   .form-group
     label.col-sm-3.col-xs-3.control-label Jenis Kerja
-    .col-sm-7.col-xs-9
+    .col-sm-7.col-xs-9.form-control-static
       strong 
         span(id='job-empType')
           if job
-            | !{job.empType}
+            | !{job.empTypeDisplay}
   .form-group
     label.col-sm-3.col-xs-3.control-label Bahasa
-    .col-sm-7.col-xs-9
+    .col-sm-7.col-xs-9.form-control-static
       strong 
         span(id='job-language')
           if job
-            | !{job.language}
+            | !{job.languageDisplay}
   .form-group
     label.col-sm-3.col-xs-3.control-label Tempat Kerja
-    .col-sm-7.col-xs-9
+    .col-sm-7.col-xs-9.form-control-static
       strong 
         span(id='job-location')
           if job
-            | !{job.location}
+            | !{job.locationDisplay}
   .form-group
     label.col-sm-3.col-xs-3.control-label Tarikh Tutup
-    .col-sm-7.col-xs-9
+    .col-sm-7.col-xs-9.form-control-static
       strong 
         span(id='job-closing')
           if job
