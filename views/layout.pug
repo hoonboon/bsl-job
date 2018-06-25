@@ -29,16 +29,22 @@ html(lang='')
     script(src='/js/lib/jquery-3.1.1.min.js')
     script(src='/js/lib/bootstrap.min.js')
     script(async defer src="https://buttons.github.io/buttons.js")
+    script.
+      let fb_app_id = '#{fbAppId}';
+      let ga_tracking_id = '#{gaTrackingId}';
     script(src='/js/main.js')
+
+    //- Google Analytics
+    if gaTrackingId
+      script(src='https://www.googletagmanager.com/gtag/js?id='+gaTrackingId async defer)
+      script.
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', ga_tracking_id);
     
     //- module or page specific that requires client side script 
     //- need to be assigned to the variable "includeScript" in the Controller
     if includeScripts
       each script in includeScripts
         script(src=script)
-
-    //- Google Analytics: change UA-38177297-2 to be your site's ID
-    //- script.
-    //-   window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
-    //-   ga('create','UA-38177297-2','auto');ga('send','pageview')
-    //- script(src='https://www.google-analytics.com/analytics.js' async defer)

@@ -107,6 +107,7 @@ export let getJobDetail = (req: Request, res: Response, next: NextFunction) => {
             if (isJSON) {
                 const result: any = {};
                 result.job = jobDb.apiModel;
+                result.analytic = jobDb.analyticModel;
                 res.json(result);
             } else {
                 // meta for facebook

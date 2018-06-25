@@ -23,7 +23,8 @@ function decodeEntities(encodedString) {
 }
 
 function view(id) {
-    $.getJSON("/job/" + id)
+    let url = "/job/" + id;
+    $.getJSON(url)
     .done(function(json) {
         let job = json.job;
         $("#modal-title").html(job.title);
@@ -50,6 +51,7 @@ function view(id) {
             $("#standardContent").show();
         }
         $("#previewModal").modal("show");
+        track(url);
     })
     .fail(function(jqxhr, textStatus, error ) {
         alert("Unexpected error. Please try again later.");
