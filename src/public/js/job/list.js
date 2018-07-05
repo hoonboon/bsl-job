@@ -51,7 +51,7 @@ function view(id) {
             $("#standardContent").show();
         }
         $("#previewModal").modal("show");
-        track(url);
+        track(url, id);
     })
     .fail(function(jqxhr, textStatus, error ) {
         alert("Unexpected error. Please try again later.");

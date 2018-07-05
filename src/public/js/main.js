@@ -22,24 +22,42 @@ $(document).ready(function () {
     e.preventDefault();
   });
 
-  $.cachedScript('https://connect.facebook.net/en_US/sdk.js', function(){
-    FB.init({
-      appId: fb_app_id,
-      cookie : true,
-      xfbml: true,
-      version: 'v3.0'
+  if (fb_app_id) {
+    $.cachedScript('https://connect.facebook.net/en_US/sdk.js', function(){
+      FB.init({
+        appId: fb_app_id,
+        cookie : true,
+        xfbml: true,
+        version: 'v3.0'
+      });
+
+      // page level analytics tracking
+      FB.AppEvents.logPageView(); 
     });
-    // alert("test00: " + fb_app_id);     
-    FB.AppEvents.logPageView(); 
-  });
+  }
 
   // Place JavaScript code here...
 
 });
 
-// Utility method for analytics tracking
-function track(url) {
+// Utility method for analytics tracking - job view event only
+function track(url, jobId) {
+  // Facebook Analytics
+  if (fb_app_id) {
+    var params = {};
+    params[FB.AppEvents.ParameterNames.CONTENT_ID] = jobId;
+    // log event
+    FB.AppEvents.logEvent(
+      FB.AppEvents.EventNames.VIEWED_CONTENT,
+      null,  // numeric value for this event - in this case, none
+      params
+    );
+  }
+  
   // Google Analytics
-  if (ga_tracking_id)
-    gtag('config', ga_tracking_id, { 'page_path': url });
+  if (ga_tracking_id) {
+    // log event
+    if (jobId)
+      gtag('event', 'view_job', { 'event_category': 'engagement', 'event_label': jobId });
+  }
 }

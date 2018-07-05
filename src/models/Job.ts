@@ -30,8 +30,7 @@ export type JobModel = mongoose.Document & {
   publishUrl: string,
   publishImgUrl: string,
   highlights: string,
-  apiModel: any,
-  analyticModel: any
+  apiModel: any
 };
 
 const jobSchema = new mongoose.Schema({
@@ -143,19 +142,6 @@ jobSchema
         customContent: this.customContent,
         highlights: this.highlights,
         publishImgUrl: this.publishImgUrl
-    };
-    return result;
-});
-
-// Virtual for Job's model for analytic purposes
-jobSchema
-.virtual("analyticModel")
-.get(function() {
-    const result = {
-        title: this.title,
-        employerName: this.employer.name,
-        empType: this.empType,
-        location: this.location
     };
     return result;
 });
