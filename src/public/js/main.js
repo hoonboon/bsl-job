@@ -23,9 +23,10 @@ $(document).ready(function () {
   });
 
   if (fb_app_id) {
-    $.cachedScript('https://connect.facebook.net/en_US/sdk.js', function(){
+    $.cachedScript('https://connect.facebook.net/ms_MY/sdk.js', function(){
       FB.init({
         appId: fb_app_id,
+        autoLogAppEvents: true,
         cookie : true,
         xfbml: true,
         version: 'v3.0'

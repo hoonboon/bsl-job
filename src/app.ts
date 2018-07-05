@@ -29,7 +29,10 @@ import * as passportConfig from "./config/passport";
 // Create Express server
 const app = express();
 
+app.locals.companyName = process.env.COMPANY_NAME || "";
 app.locals.fbAppId = process.env.FACEBOOK_APP_ID || "";
+app.locals.fbPageUrl = process.env.FACEBOOK_PUBLISHER || "";
+app.locals.fbPageName = process.env.FACEBOOK_PAGE_NAME || "";
 app.locals.gaTrackingId = process.env.GA_TRACKING_ID || "";
 
 // Connect to MongoDB
