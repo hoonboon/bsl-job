@@ -34,6 +34,7 @@ app.locals.fbAppId = process.env.FACEBOOK_APP_ID || "";
 app.locals.fbPageUrl = process.env.FACEBOOK_PUBLISHER || "";
 app.locals.fbPageName = process.env.FACEBOOK_PAGE_NAME || "";
 app.locals.gaTrackingId = process.env.GA_TRACKING_ID || "";
+app.locals.addThisId = process.env.ADDTHIS_ID || "";
 
 // Connect to MongoDB
 const mongoUrl = MONGODB_URI;

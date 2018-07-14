@@ -32,6 +32,7 @@ html(lang='')
     script.
       let fb_app_id = '#{fbAppId}';
       let ga_tracking_id = '#{gaTrackingId}';
+      let addthis_id = '#{addThisId}';
     script(src='/js/main.js')
 
     //- Google Analytics
@@ -42,6 +43,10 @@ html(lang='')
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', ga_tracking_id);
+
+    //- AddThis Analytics
+    if addThisId
+      script(src='//s7.addthis.com/js/300/addthis_widget.js#pubid='+addThisId)
     
     //- module or page specific that requires client side script 
     //- need to be assigned to the variable "includeScript" in the Controller
