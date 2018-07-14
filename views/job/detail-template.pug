@@ -49,4 +49,16 @@
           .col-sm-7.col-xs-9
             textarea.form-control.no-border(rows="5") !{job.otherInfo}
   .panel-footer
-    .addthis_inline_share_toolbox
+    if (job.postType == 'FB')
+      .addthis_inline_share_toolbox(
+        data-url!=job.fbPostUrl, 
+        data-title!=job.title, 
+        data-media!=job.publishImgUrl
+      )
+    else 
+      .addthis_inline_share_toolbox(
+        data-url!=job.publishUrl, 
+        data-title!=job.title, 
+        data-description!=job.highlights, 
+        data-media!=job.publishImgUrl
+      )
