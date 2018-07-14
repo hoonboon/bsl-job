@@ -5,7 +5,7 @@ block content
     h3 !{job.title}
     p Job Id: #{jobId}
   .form-horizontal.post-preview
-    include detail-template.pug
-    .form-group
-      .col-sm-offset-3.col-sm-7
-        a.btn.btn-warning(href='/jobs') Home
+    #detail.col-xs-12.col-sm-8.col-sm-offset-2
+      include detail-template.pug
+      .text-center
+          a.btn.btn-warning(href='/jobs') Home

@@ -22,18 +22,28 @@ $(document).ready(function () {
     e.preventDefault();
   });
 
+  $.fn.isInViewport = function () {
+    var elementTop = $(this).offset().top;
+    var elementBottom = elementTop + $(this).outerHeight();
+
+    var viewportTop = $(window).scrollTop();
+    var viewportBottom = viewportTop + $(window).height();
+
+    return elementBottom > viewportTop && elementTop < viewportBottom;
+  };
+
   if (fb_app_id) {
-    $.cachedScript('https://connect.facebook.net/ms_MY/sdk.js', function(){
+    $.cachedScript('https://connect.facebook.net/ms_MY/sdk.js', function () {
       FB.init({
         appId: fb_app_id,
         autoLogAppEvents: true,
-        cookie : true,
+        cookie: true,
         xfbml: true,
         version: 'v3.0'
       });
 
       // page level analytics tracking
-      FB.AppEvents.logPageView(); 
+      FB.AppEvents.logPageView();
     });
   }
 

@@ -13,25 +13,11 @@ block content
         a(href='#', onclick='showSearch()' class='btn btn-primary')
           span.glyphicon.glyphicon-search
 
-  #listing.table-wrap
-    table.table.table-striped
-      thead
-        tr
-          th Nama Jawatan
-          th Nama Majikan
-          th Gaji
-          th Tarikh Tutup
-      tbody
-        each job in job_list
-          tr
-            td 
-              a(href='#', onclick='view(\'' + job._id + '\')') !{job.title}
-            td !{job.employer.name}
-            td !{job.salary}
-            td #{job.closing}
-        else
-          tr
-            td(colspan='4' align='center') Tiada rekod.
+  #listing.col-xs-12.col-sm-8.col-sm-offset-2
+    each job in job_list
+      include detail-template.pug
+    else
+      | Tiada rekod.
 
   #searchModal.modal.fade(tabindex='-1')
     .modal-dialog
@@ -61,5 +47,3 @@ block content
           button.btn.btn-default(type='button', data-dismiss='modal') Tutup
           button.btn.btn-warning(type='button', onclick="resetSearchForm()") Padam
           button.btn.btn-primary(type='button', onclick="submitSearch()") Hantar
-  
-  include view-modal.pug
