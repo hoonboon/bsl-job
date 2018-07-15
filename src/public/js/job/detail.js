@@ -4,6 +4,8 @@ $(document).ready(function() {
         $(this).html(contents);
         $(this).removeClass('custom-content-raw');
     });
+
+    $(".read-more").readMore();
 });
 
 function decodeEntities(encodedString) {
