@@ -17,7 +17,10 @@
       if job.description
         tr
           td(colspan='4', align='left')
-            | !{job.descriptionDisplay}
+            .read-more 
+              | !{job.descriptionDisplay}
+              p.prompt
+                a.button.btn.btn-primary(href='#') Teks Penuh
       tr
         td(width='15%')
           label.control-label Majikan
@@ -51,7 +54,11 @@
             strong Tarikh Tutup: !{job.closing}
       if job.otherInfoDisplay
         tr
-          td(colspan='4', align='left') !{job.otherInfoDisplay}
+          td(colspan='4', align='left') 
+            .read-more 
+              | !{job.otherInfoDisplay}
+              p.prompt
+                a.button.btn.btn-primary(href='#') Teks Penuh
   .panel-footer
     if (job.postType == 'FB')
       .addthis_inline_share_toolbox(

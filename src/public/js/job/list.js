@@ -23,6 +23,8 @@ $(document).ready(function() {
     //         $(this).removeClass('custom-content-raw');
     //     });
     // });
+
+    $(".read-more").readMore();
 });
 
 function showSearch() {
