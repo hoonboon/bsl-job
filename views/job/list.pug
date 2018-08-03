@@ -13,11 +13,19 @@ block content
         a(href='#', onclick='showSearch()' class='btn btn-primary')
           span.glyphicon.glyphicon-search
 
+  .col-xs-12.col-sm-8.col-sm-offset-2
+    include ../partials/pagination.pug
+    | &nbsp;
+
   #listing.col-xs-12.col-sm-8.col-sm-offset-2
-    each job in job_list
-      include detail-template.pug
+    if job_list
+      each job in job_list
+        include detail-template.pug
     else
-      | Tiada rekod.
+      .text-center Tiada rekod.
+
+  .col-xs-12.col-sm-8.col-sm-offset-2
+    include ../partials/pagination.pug
 
   #searchModal.modal.fade(tabindex='-1')
     .modal-dialog
@@ -28,6 +36,9 @@ block content
           h4 Carian
         .modal-body
           form.form-horizontal(id="searchForm")
+            if (pageInfo && pageInfo.totalRow > 0)
+              input(type='hidden', id='newPageNo', name='newPageNo')
+              input(type='hidden', id='rowPerPage', name='rowPerPage', value=(pageInfo.rowPerPage))
             .form-group
               label.col-sm-4(for='searchTitle') Nama Jawatan: 
               .col-sm-7
@@ -46,4 +57,4 @@ block content
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Tutup
           button.btn.btn-warning(type='button', onclick="resetSearchForm()") Padam
-          button.btn.btn-primary(type='button', onclick="submitSearch()") Hantar
+          button.btn.btn-primary(type='button', onclick="submitViewList()") Hantar

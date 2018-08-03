@@ -31,7 +31,7 @@ function showSearch() {
     $("#searchModal").modal("show");
 }
 
-function submitSearch() {
+function submitViewList() {
     $("#searchForm").submit();
 }
 

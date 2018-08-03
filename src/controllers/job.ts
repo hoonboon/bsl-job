@@ -1,23 +1,21 @@
-import async from "async";
 import moment from "moment";
 import { Request, Response, NextFunction } from "express";
-import { WriteError } from "mongodb";
-
-import { body, validationResult } from "express-validator/check";
-import { sanitizeBody } from "express-validator/filter";
 
 import { default as Job, JobModel } from "../models/Job";
-import logger from "../util/logger";
+
+import { PageInfo, getNewPageInfo } from "../util/pagination";
 import { generateMetaFacebook } from "../util/social";
 import * as selectOption from "../util/selectOption";
+
+const DEFAULT_ROW_PER_PAGE: number = 10;
 
 /**
  * GET /jobs
  * Job listing page.
  */
 export let getJobs = (req: Request, res: Response, next: NextFunction) => {
-    const searchTitle = req.query.searchTitle;
-    const searchEmployerName = req.query.searchEmployerName;
+    const searchTitle: string = req.query.searchTitle;
+    const searchEmployerName: string = req.query.searchEmployerName;
 
     if (!(req.query.searchLocation instanceof Array)) {
         if (typeof req.query.searchLocation === "undefined") {
@@ -28,6 +26,16 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
         }
     }
     const searchLocation = req.query.searchLocation as string[];
+
+    let newPageNo: number = parseInt(req.query.newPageNo);
+    if (!newPageNo) {
+        newPageNo = 1; // default
+    }
+
+    let rowPerPage: number = parseInt(req.query.rowPerPage);
+    if (!rowPerPage) {
+        rowPerPage = DEFAULT_ROW_PER_PAGE; // default
+    }
 
     const query = Job.find();
 
@@ -55,23 +63,38 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
 
     query.where("status").in(["A"]);
 
-    query.sort([["publishStart", "descending"], ["createdAt", "descending"]]);
+    let pageInfo: PageInfo;
 
-    const locationOptions = selectOption.OPTIONS_LOCATION();
+    query.count()
+        .then(function(count: number) {
+            if (count > 0) {
+                pageInfo = getNewPageInfo(count, rowPerPage, newPageNo);
 
-    locationOptions.forEach(option => {
-        if (searchLocation.indexOf(option.value) > -1) {
-            option.isSelected = true;
-        }
-    });
-
-    // client side script
-    const includeScripts = ["/js/job/list.js"];
-
-    query.exec(function (err, item_list: any) {
-            if (err) {
-                return next(err);
+                query.find();
+                query.skip(pageInfo.rowNoStart - 1);
+                query.limit(rowPerPage);
+                query.sort([["publishStart", "descending"], ["createdAt", "descending"]]);
+                return query.exec();
+            } else {
+                Promise.resolve();
             }
+        })
+        .then(function (item_list: any) {
+            let rowPerPageOptions, pageNoOptions;
+            if (pageInfo) {
+                rowPerPageOptions = selectOption.OPTIONS_ROW_PER_PAGE();
+                selectOption.markSelectedOption(rowPerPage.toString(), rowPerPageOptions);
+
+                pageNoOptions = selectOption.OPTIONS_PAGE_NO(pageInfo.totalPageNo);
+                selectOption.markSelectedOption(pageInfo.curPageNo.toString(), pageNoOptions);
+            }
+
+            const locationOptions = selectOption.OPTIONS_LOCATION();
+            selectOption.markSelectedOptions(searchLocation, locationOptions);
+
+            // client side script
+            const includeScripts = ["/js/job/list.js", "/js/util/pagination.js"];
+
             res.render("job/list", {
                 title: "Jawatan",
                 title2: "Senarai Jawatan",
@@ -80,8 +103,15 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
                 searchEmployerName: searchEmployerName,
                 searchLocation: searchLocation,
                 includeScripts: includeScripts,
+                rowPerPageOptions: rowPerPageOptions,
+                pageNoOptions: pageNoOptions,
+                pageInfo: pageInfo,
                 locationOptions: locationOptions
             });
+        })
+        .catch(function(error) {
+            console.error(error);
+            return next(error);
         });
 };
 
