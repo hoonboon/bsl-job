@@ -15,7 +15,6 @@ const DEFAULT_ROW_PER_PAGE: number = 10;
  */
 export let getJobs = (req: Request, res: Response, next: NextFunction) => {
     const searchTitle: string = req.query.searchTitle;
-    const searchEmployerName: string = req.query.searchEmployerName;
 
     if (!(req.query.searchLocation instanceof Array)) {
         if (typeof req.query.searchLocation === "undefined") {
@@ -50,11 +49,6 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
     if (searchTitle) {
         const regex = new RegExp(searchTitle.toUpperCase().replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"));
         query.where("title").regex(regex);
-    }
-
-    if (searchEmployerName) {
-        const regex = new RegExp(searchEmployerName.toUpperCase().replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"));
-        query.where("nric").regex(regex);
     }
 
     if (searchLocation && searchLocation.length > 0) {
@@ -100,7 +94,6 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
                 title2: "Senarai Jawatan",
                 job_list: item_list,
                 searchTitle: searchTitle,
-                searchEmployerName: searchEmployerName,
                 searchLocation: searchLocation,
                 includeScripts: includeScripts,
                 rowPerPageOptions: rowPerPageOptions,

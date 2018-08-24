@@ -6,6 +6,12 @@ $(document).ready(function() {
         $(this).removeClass('custom-content-raw');
     });
 
+    $('.locationOptionLabel').click(function() {
+        updateSearchLocationDisplay();
+    })
+
+    updateSearchLocationDisplay();
+
     // TODO: use this event handler when infinite scrolling is implemented
     // $(window).on('load resize scroll', function () {
     //     // $('.custom-content').each(function () {
@@ -27,8 +33,19 @@ $(document).ready(function() {
     $(".read-more").readMore();
 });
 
-function showSearch() {
-    $("#searchModal").modal("show");
+function updateSearchLocationDisplay() {
+    let displayValue = "";
+    $('.locationOptionLabel').each(function() {
+        const checked = $('input', this).is(':checked');
+        if (checked) {
+            if (displayValue == "") {
+                displayValue = $('span', this).text();
+            } else {
+                displayValue += ", " + $('span', this).text();
+            }
+        }
+    })
+    $("#searchLocationDisplay").val(displayValue);
 }
 
 function submitViewList() {
@@ -37,7 +54,7 @@ function submitViewList() {
 
 function resetSearchForm() {
     $("#searchTitle").val("");
-    $("#searchEmployerName").val("");
+    $("#searchLocationDisplay").val("");
     $("input:checkbox").prop("checked", false);
 }
 

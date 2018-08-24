@@ -2,59 +2,65 @@ extends ../layout
 
 
 block content
-  .page-header
-    h3
-      if title2
-        = title2
+  .container-fluid
+    #searchPanel.col-sm-12.col-md-3
+      .panel.panel-default
+        .panel-heading
+          .panel-title.text-center.hidden-xs.hidden-sm Carian
+          .panel-title.text-center.hidden-md.hidden-lg
+            a(role="button", data-toggle="collapse", href="#searchPanelBody")
+              | Carian
+        #searchPanelBody.panel-collapse.collapse.in
+          .panel-body
+            form.form-horizontal(id="searchForm")
+              if (pageInfo && pageInfo.totalRow > 0)
+                input(type='hidden', id='newPageNo', name='newPageNo')
+                input(type='hidden', id='rowPerPage', name='rowPerPage', value=(pageInfo.rowPerPage))
+              .form-group
+                label.col-sm-12(for='searchTitle') Nama Jawatan: 
+                .col-sm-12
+                  input.form-control(type='text', name='searchTitle', id='searchTitle', placeholder='Search...', value=searchTitle)
+              .form-group
+                label.col-sm-12(for='searchLocation') Tempat Kerja: 
+                .col-sm-12
+                  .input-group
+                    input.form-control(type='text', name='searchLocationDisplay', id='searchLocationDisplay', placeholder='Search...', value=searchLocationDisplay, disabled="disabled")
+                    span.input-group-btn
+                      button.btn.btn-primary(type='button', data-target="#locationOptions", data-toggle="collapse")
+                        span.glyphicon.glyphicon-triangle-bottom
+                  #locationOptions.collapse
+                    .panel.panel-default
+                      .panel-body
+                        for option in locationOptions
+                          .checkbox.col-sm-12
+                            label.locationOptionLabel(for=option.value)
+                              input.checkbox-input(type='checkbox', name='searchLocation', id=option.value, value=option.value checked=option.isSelected)
+                              span #{option.label}
+          .panel-footer
+            .text-center
+              button.btn.btn-warning(type='button', onclick="resetSearchForm()") Padam
+              | 
+              button.btn.btn-primary(type='button', onclick="submitViewList()") Hantar
+      
+    #listing.col-sm-12.col-md-7
+      #page-header
+        h3.text-center
+          if title2
+            = title2
+          else
+            = title
+
+      .block
+        include ../partials/pagination.pug
+        | &nbsp;
+    
+      if job_list
+        each job in job_list
+          include detail-template.pug
       else
-        = title
-    .btn-toolbar(role="toolbar")
-      .btn-group(role="group")
-        a(href='#', onclick='showSearch()' class='btn btn-primary')
-          span.glyphicon.glyphicon-search
+        .text-center Tiada rekod.
 
-  .col-xs-12.col-sm-8.col-sm-offset-2
-    include ../partials/pagination.pug
-    | &nbsp;
+      .block
+        include ../partials/pagination.pug
 
-  #listing.col-xs-12.col-sm-8.col-sm-offset-2
-    if job_list
-      each job in job_list
-        include detail-template.pug
-    else
-      .text-center Tiada rekod.
-
-  .col-xs-12.col-sm-8.col-sm-offset-2
-    include ../partials/pagination.pug
-
-  #searchModal.modal.fade(tabindex='-1')
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type='button', data-dismiss='modal')
-            span &times;
-          h4 Carian
-        .modal-body
-          form.form-horizontal(id="searchForm")
-            if (pageInfo && pageInfo.totalRow > 0)
-              input(type='hidden', id='newPageNo', name='newPageNo')
-              input(type='hidden', id='rowPerPage', name='rowPerPage', value=(pageInfo.rowPerPage))
-            .form-group
-              label.col-sm-4(for='searchTitle') Nama Jawatan: 
-              .col-sm-7
-                input.form-control(type='text', name='searchTitle', id='searchTitle', placeholder='Search...', value=searchTitle)
-            .form-group
-              label.col-sm-4(for='searchEmployerName') Nama Majikan: 
-              .col-sm-7
-                input.form-control(type='text', name='searchEmployerName', id='searchEmployerName', placeholder='Search...', value=searchEmployerName)
-            .form-group
-              label.col-sm-4(for='searchLocation') Tempat Kerja: 
-              .col-sm-7
-                for option in locationOptions
-                  .checkbox-inline
-                    input.checkbox-input(type='checkbox', name='searchLocation', id=option.value, value=option.value checked=option.isSelected)
-                    label(for=option.value) #{option.label}
-        .modal-footer
-          button.btn.btn-default(type='button', data-dismiss='modal') Tutup
-          button.btn.btn-warning(type='button', onclick="resetSearchForm()") Padam
-          button.btn.btn-primary(type='button', onclick="submitViewList()") Hantar
+  
