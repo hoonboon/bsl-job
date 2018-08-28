@@ -2,7 +2,6 @@
 
 @import "lib/bootstrap/bootstrap";
 @import "lib/font-awesome/font-awesome";
-@import "lib/readmore";
 
 @import "themes/default/default";
 
@@ -78,5 +77,23 @@ textarea {
 .post-preview {
   background-image: url("/images/watermark.png");
   background-repeat: repeat;
-  background-color: white
+  background-color: white;
 }
+
+.post-detail {
+  th {
+    background-color: $table-bg-accent;
+    text-align: left;
+  }
+}
+
+table.post-list {
+  border-collapse: separate;
+  border-spacing: 15px;
+}
+
+.ad-space {
+  text-align: center;
+  height: 100px;
+}
+

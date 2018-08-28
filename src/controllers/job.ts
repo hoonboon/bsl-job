@@ -91,7 +91,7 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
 
             res.render("job/list", {
                 title: "Jawatan",
-                title2: "Senarai Jawatan",
+                title2: "Senarai Jawatan Kosong di Kelantan",
                 job_list: item_list,
                 searchTitle: searchTitle,
                 searchLocation: searchLocation,

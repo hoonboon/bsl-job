@@ -1,6 +1,6 @@
 if (pageInfo && pageInfo.totalRow > 0)
   #pagination
-    .col-xs-4.text-left
+    .col-xs-6.text-left
       | Show 
       select.form-control-static(id='selRowPerPage', onchange='changeRowPerPage(this.value)')
         for option in rowPerPageOptions
@@ -10,7 +10,7 @@ if (pageInfo && pageInfo.totalRow > 0)
             selected=(option.isSelected ? 'selected' : false)
           ) #{option.label}
       |  entries
-    .col-xs-4.text-center
+    .col-xs-6.text-right
       button.btn.btn-primary(
         id='btnPrevPage', 
         disabled=(pageInfo.hasPrevPage ? false : 'disabled'),
@@ -18,13 +18,6 @@ if (pageInfo && pageInfo.totalRow > 0)
       )
         span.glyphicon.glyphicon-chevron-left
       | 
-      button.btn.btn-primary(
-        id='btnNextPage', 
-        disabled=(pageInfo.hasNextPage ? false : 'disabled'),
-        onclick='goToPage(' + (pageInfo.curPageNo + 1) + ')'
-      )
-        span.glyphicon.glyphicon-chevron-right
-    .col-xs-4.text-right
       | Page 
       select.form-control-static(id='selNewPageNo', onchange='goToPage(this.value)')
         for option in pageNoOptions
@@ -34,4 +27,11 @@ if (pageInfo && pageInfo.totalRow > 0)
             selected=(option.isSelected ? 'selected' : false)
           ) #{option.label}
       |  of #{pageInfo.totalPageNo}
+      | 
+      button.btn.btn-primary(
+        id='btnNextPage', 
+        disabled=(pageInfo.hasNextPage ? false : 'disabled'),
+        onclick='goToPage(' + (pageInfo.curPageNo + 1) + ')'
+      )
+        span.glyphicon.glyphicon-chevron-right
     

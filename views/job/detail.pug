@@ -1,11 +1,11 @@
 extends ../layout
 
 block content
-  .page-header
-    h3 !{job.title}
-    p Job Id: #{jobId}
-  .form-horizontal.post-preview
-    #detail.col-xs-12.col-sm-8.col-sm-offset-2
-      include detail-template.pug
-      .text-center
-          a.btn.btn-warning(href='/jobs') Home
+  .container
+    p.text-center
+      small Job Id: #{jobId}
+    .form-horizontal.post-preview
+      #detail.col-xs-12.col-sm-6.col-sm-offset-3
+        include detail-template.pug
+        .text-center
+            a.btn.btn-primary(href='/jobs') Laman Utama

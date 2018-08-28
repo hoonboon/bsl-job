@@ -1,64 +1,73 @@
 .panel.panel-default
-  .panel-heading 
-    h3.panel-title !{job.title}
   if (job.postType == 'FB')
+    .panel-heading 
+      h3.panel-title !{job.title}
     .panel-body.post-preview
       .text-center
         .fb-post(data-href!=job.fbPostUrl)
   else if job.customContent
+    .panel-heading 
+      h3.panel-title !{job.title}
     .panel-body.post-preview
       .custom-content.custom-content-raw !{job.customContent}
   else
-    table.table.table-condensed.post-preview
-      if job.imgUrl
-        tr
-          td(colspan='4', align='center')
-            img.img-responsive.img-thumbnail(src!=job.publishImgUrl, alt="Post Image")
+    .panel-body
+      .col-xs-4.col-xs-offset-4
+        .text-center
+          img.img-responsive.img-thumbnail(src!=job.publishImgUrl, alt="Post Image")
+      .col-xs-12
+        h3.text-center
+          | !{job.title}
+        h4.text-center
+          | !{job.employer.name}
+        h5.text-center
+          | Tempat Kerja: !{job.locationDisplay}
+    table.post-detail.table
       if job.description
         tr
-          td(colspan='4', align='left')
-            .read-more 
-              | !{job.descriptionDisplay}
-              p.prompt
-                a.button.btn.btn-primary(href='#') Teks Penuh
-      tr
-        td(width='15%')
-          label.control-label Majikan
-        td(width='35%')
-          | !{job.employer.name}
-        td(width='15%')
-          label.control-label Hubungi
-        td(width='35%')
-          | !{job.employer.contact}
-      tr
-        td
-          label.control-label Gaji
-        td 
-          | !{job.salary}
-        td
-          label.control-label Jenis Kerja
-        td
-          | !{job.empTypeDisplay}
-      tr
-        td
-          label.control-label Tempat Kerja
-        td 
-          | !{job.locationDisplay}
-        td
-          label.control-label Bahasa
-        td
-          | !{job.languageDisplay}
-      if job.closing
+          th
+            label.control-label Keterangan
         tr
-          td(colspan='4', align='center') 
-            strong Tarikh Tutup: !{job.closing}
+          td(align='left')
+            | !{job.descriptionDisplay}
+      tr
+        th
+          label.control-label Hubungi
+      tr
+        td(align='center')
+          | !{job.employer.contact}
+      if job.salary
+        tr
+          th
+            label.control-label Gaji
+        tr
+          td(align='center')
+            | !{job.salary}
+      if job.empTypeDisplay
+        tr
+          th
+            label.control-label Jenis Kerja
+        tr
+          td(align='center')
+            | !{job.empTypeDisplay}
+      if job.languageDisplay
+        tr
+          th
+            label.control-label Bahasa
+        tr
+          td(align='center')
+            | !{job.languageDisplay}
       if job.otherInfoDisplay
         tr
-          td(colspan='4', align='left') 
-            .read-more 
-              | !{job.otherInfoDisplay}
-              p.prompt
-                a.button.btn.btn-primary(href='#') Teks Penuh
+          th
+            label.control-label Lain-lain
+        tr
+          td(align='left') 
+            | !{job.otherInfoDisplay}
+      if job.closing
+        tr
+          td(align="center")
+            strong Tarikh Tutup: !{job.closing}
   .panel-footer
     if (job.postType == 'FB')
       .addthis_inline_share_toolbox(

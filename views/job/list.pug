@@ -6,10 +6,11 @@ block content
     #searchPanel.col-sm-12.col-md-3
       .panel.panel-default
         .panel-heading
-          .panel-title.text-center.hidden-xs.hidden-sm Carian
+          .panel-title.text-center.hidden-xs.hidden-sm 
+            strong Carian
           .panel-title.text-center.hidden-md.hidden-lg
             a(role="button", data-toggle="collapse", href="#searchPanelBody")
-              | Carian
+              strong Carian
         #searchPanelBody.panel-collapse.collapse.in
           .panel-body
             form.form-horizontal(id="searchForm")
@@ -38,29 +39,66 @@ block content
                               span #{option.label}
           .panel-footer
             .text-center
-              button.btn.btn-warning(type='button', onclick="resetSearchForm()") Padam
+              button.btn.btn-primary(type='button', onclick="resetSearchForm()") Padam
               | 
               button.btn.btn-primary(type='button', onclick="submitViewList()") Hantar
       
-    #listing.col-sm-12.col-md-7
-      #page-header
+    #listing.col-sm-12.col-md-6
+      #pageHeader
         h3.text-center
           if title2
             = title2
           else
             = title
 
-      .block
+      .row
         include ../partials/pagination.pug
         | &nbsp;
     
       if job_list
-        each job in job_list
-          include detail-template.pug
+        table.post-list
+          tbody
+            each job in job_list
+              if (job.postType == 'FB')
+                tr
+                  td(colspan="2", width="100%")
+                    .panel.panel-default
+                      .panel-heading 
+                        h4.panel-title 
+                          strong !{job.title}
+                      .panel-body
+                        .text-center
+                          .fb-post(data-href!=job.fbPostUrl)
+              else
+                tr
+                  td(width="25%")
+                    img.img-thumbnail.img-responsive(src!=job.publishImgUrl, alt="Post Image")
+                  td(width="75%")
+                    .panel.panel-default
+                      .panel-heading 
+                        h4.panel-title 
+                          a(role="button", href!=job.url)
+                            strong !{job.title}
+                      table.table.table-condensed
+                        tr
+                          td(width='100%')
+                            | !{job.employer.name}
+                        if job.locationDisplay
+                          tr
+                            td 
+                              | !{job.locationDisplay}
       else
         .text-center Tiada rekod.
 
-      .block
+      .row
         include ../partials/pagination.pug
+      
+      p
 
+    #adPanel.col-sm-12.col-md-3
+      - var i = 1
+      while i <= 3
+        .panel.panel-default
+          .panel-body
+            .ad-space Advertisement space #{i++}
   
