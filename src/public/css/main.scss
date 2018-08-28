@@ -87,9 +87,19 @@ textarea {
   }
 }
 
-table.post-list {
-  border-collapse: separate;
-  border-spacing: 15px;
+.post-list {
+  td {
+    vertical-align: top;
+  }
+
+  @media screen and (max-width: $screen-xs) {
+    border-collapse: separate;
+    border-spacing: 4px;
+  }
+  @media screen and (min-width: $screen-xs) {
+    border-collapse: separate;
+    border-spacing: 8px;
+  }
 }
 
 .ad-space {
