@@ -5,7 +5,7 @@ $(document).ready(function() {
         $(this).removeClass('custom-content-raw');
     });
 
-    $(".read-more").readMore();
+    $("body").addClass("no-select");
 });
 
 function decodeEntities(encodedString) {

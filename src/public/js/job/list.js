@@ -30,7 +30,6 @@ $(document).ready(function() {
     //     });
     // });
 
-    $(".read-more").readMore();
 });
 
 function updateSearchLocationDisplay() {
