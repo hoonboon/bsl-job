@@ -2,7 +2,7 @@ import express from "express";
 import compression from "compression";  // compresses requests
 import session from "express-session";
 import bodyParser from "body-parser";
-import logger from "./util/logger";
+import helmet from "helmet";
 import lusca from "lusca";
 import dotenv from "dotenv";
 import mongo from "connect-mongo";
@@ -64,8 +64,9 @@ app.use(session({
   })
 }));
 app.use(flash());
-app.use(lusca.xframe("SAMEORIGIN"));
-app.use(lusca.xssProtection(true));
+app.use(helmet());
+app.use(helmet.noCache());
+app.use(lusca.csrf());
 
 app.use(
   express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
@@ -79,5 +80,21 @@ app.get("/", homeController.index);
 // Job module
 app.get("/jobs", jobController.getJobs);
 app.get("/job/:id", jobController.getJobDetail);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  const err: any = new Error("Not Found");
+  err.status = 404;
+  next(err);
+});
+ // error handler
+app.use(function(err: any, req: any, res: any, next: any) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
+   // render the error page
+  res.status(err.status || 500);
+  res.render("error");
+});
 
 export default app;
