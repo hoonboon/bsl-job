@@ -2,13 +2,13 @@
   if (job.postType == 'FB')
     .panel-heading 
       h3.panel-title !{job.title}
-    .panel-body.post-preview
+    .panel-body
       .text-center
         .fb-post(data-href!=job.fbPostUrl)
   else if job.customContent
     .panel-heading 
       h3.panel-title !{job.title}
-    .panel-body.post-preview
+    .panel-body
       .custom-content.custom-content-raw !{job.customContent}
   else
     .panel-body
@@ -19,7 +19,7 @@
         h3.text-center
           | !{job.title}
         h4.text-center
-          | !{job.employer.name}
+          | !{job.employerName}
         h5.text-center
           | Tempat Kerja: !{job.locationDisplay}
     table.post-detail.table
@@ -28,42 +28,21 @@
           th
             label.control-label Keterangan
         tr
-          td(align='left')
+          td
             | !{job.descriptionDisplay}
-      tr
-        th
-          label.control-label Hubungi
-      tr
-        td(align='center')
-          | !{job.employer.contact}
       if job.salary
         tr
           th
-            label.control-label Gaji
+            label.control-label Gaji & Lain-lain Manfaat
         tr
-          td(align='center')
+          td
             | !{job.salary}
-      if job.empTypeDisplay
-        tr
-          th
-            label.control-label Jenis Kerja
-        tr
-          td(align='center')
-            | !{job.empTypeDisplay}
-      if job.languageDisplay
-        tr
-          th
-            label.control-label Bahasa
-        tr
-          td(align='center')
-            | !{job.languageDisplay}
-      if job.otherInfoDisplay
-        tr
-          th
-            label.control-label Lain-lain
-        tr
-          td(align='left') 
-            | !{job.otherInfoDisplay}
+      tr
+        th
+          label.control-label Cara Memohon
+      tr
+        td
+          | !{job.applyMethod}
       if job.closing
         tr
           td(align="center")

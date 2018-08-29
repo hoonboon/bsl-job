@@ -6,9 +6,9 @@ block content
     #searchPanel.col-sm-12.col-md-3
       .panel.panel-default
         .panel-heading
-          .panel-title.text-center.hidden-xs.hidden-sm 
+          .panel-title.hidden-xs.hidden-sm 
             strong Carian
-          .panel-title.text-center.hidden-md.hidden-lg
+          .panel-title.hidden-md.hidden-lg
             a(role="button", data-toggle="collapse", href="#searchPanelBody")
               strong Carian
         #searchPanelBody.panel-collapse.collapse.in
@@ -39,7 +39,7 @@ block content
                               span #{option.label}
           .panel-footer
             .text-center
-              button.btn.btn-primary(type='button', onclick="resetSearchForm()") Padam
+              button.btn.btn-primary-lighter(type='button', onclick="resetSearchForm()") Padam
               | 
               button.btn.btn-primary(type='button', onclick="submitViewList()") Hantar
       
@@ -51,10 +51,6 @@ block content
           else
             = title
 
-      .row
-        include ../partials/pagination.pug
-        | &nbsp;
-    
       if job_list
         table.post-list
           tbody
@@ -82,19 +78,18 @@ block content
                       table.table.table-condensed
                         tr
                           td(width='100%')
-                            | !{job.employer.name}
+                            | !{job.employerName}
                         if job.locationDisplay
                           tr
                             td 
                               | !{job.locationDisplay}
+          tfoot
+            tr
+              td(colspan="2")
+                include ../partials/pagination.pug
       else
         .text-center Tiada rekod.
-
-      .row
-        include ../partials/pagination.pug
       
-      p
-
     #adPanel.col-sm-12.col-md-3
       - var i = 1
       while i <= 3

@@ -7,7 +7,7 @@ import { PageInfo, getNewPageInfo } from "../util/pagination";
 import { generateMetaFacebook } from "../util/social";
 import * as selectOption from "../util/selectOption";
 
-const DEFAULT_ROW_PER_PAGE: number = 10;
+const DEFAULT_ROW_PER_PAGE: number = 20;
 
 /**
  * GET /jobs
@@ -31,10 +31,7 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
         newPageNo = 1; // default
     }
 
-    let rowPerPage: number = parseInt(req.query.rowPerPage);
-    if (!rowPerPage) {
-        rowPerPage = DEFAULT_ROW_PER_PAGE; // default
-    }
+    const rowPerPage: number = DEFAULT_ROW_PER_PAGE; // hard-coded
 
     const query = Job.find();
 
@@ -74,11 +71,8 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
             }
         })
         .then(function (item_list: any) {
-            let rowPerPageOptions, pageNoOptions;
+            let pageNoOptions;
             if (pageInfo) {
-                rowPerPageOptions = selectOption.OPTIONS_ROW_PER_PAGE();
-                selectOption.markSelectedOption(rowPerPage.toString(), rowPerPageOptions);
-
                 pageNoOptions = selectOption.OPTIONS_PAGE_NO(pageInfo.totalPageNo);
                 selectOption.markSelectedOption(pageInfo.curPageNo.toString(), pageNoOptions);
             }
@@ -96,7 +90,6 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
                 searchTitle: searchTitle,
                 searchLocation: searchLocation,
                 includeScripts: includeScripts,
-                rowPerPageOptions: rowPerPageOptions,
                 pageNoOptions: pageNoOptions,
                 pageInfo: pageInfo,
                 locationOptions: locationOptions

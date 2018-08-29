@@ -15,7 +15,7 @@ html {
 
 body {
   padding-top: 0px;
-  margin-bottom: 75px;
+  margin-bottom: 25px;
 }
 
 footer {
@@ -92,14 +92,8 @@ textarea {
     vertical-align: top;
   }
 
-  @media screen and (max-width: $screen-xs) {
-    border-collapse: separate;
-    border-spacing: 4px;
-  }
-  @media screen and (min-width: $screen-xs) {
-    border-collapse: separate;
-    border-spacing: 8px;
-  }
+  border-collapse: separate;
+  border-spacing: 12px;
 }
 
 .ad-space {
@@ -117,4 +111,31 @@ textarea {
 
 .no-select {
   @include user-select(none);
+}
+
+.navbar-brand {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin:0 auto;
+    font-size: 24px;
+}
+.navbar-toggle {
+    z-index:3;
+}
+
+.pagination-padding {
+  padding: 8px;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+.btn-primary-lighter {
+  @include button-variant($btn-primary-color, lighten($brand-primary, 20%), $btn-primary-border);
+}
+
+.padding-sm {
+  padding: 12px;
 }
