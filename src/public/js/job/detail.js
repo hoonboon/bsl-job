@@ -6,10 +6,20 @@ $(document).ready(function() {
     });
 
     $("body").addClass("no-select");
+
+    if (window.history.length > 1) {
+        $("#btnGoBack").show();
+    } else {
+        $("#btnGoBack").hide();
+    }
 });
 
 function decodeEntities(encodedString) {
     let textArea = document.createElement("textarea");
     textArea.innerHTML = encodedString;
     return textArea.value;
+}
+
+function goBack() {
+    window.history.back();
 }

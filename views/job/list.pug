@@ -16,7 +16,6 @@ block content
             form.form-horizontal(id="searchForm")
               if (pageInfo && pageInfo.totalRow > 0)
                 input(type='hidden', id='newPageNo', name='newPageNo')
-                input(type='hidden', id='rowPerPage', name='rowPerPage', value=(pageInfo.rowPerPage))
               .form-group
                 label.col-sm-12(for='searchTitle') Nama Jawatan: 
                 .col-sm-12
@@ -39,9 +38,8 @@ block content
                               span #{option.label}
           .panel-footer
             .text-center
-              button.btn.btn-primary-lighter(type='button', onclick="resetSearchForm()") Padam
-              | 
-              button.btn.btn-primary(type='button', onclick="submitViewList()") Hantar
+              button.btn.btn-primary-lighter.margin-xs(type='button', onclick="resetSearchForm()") Padam
+              button.btn.btn-primary.margin-xs(type='button', onclick="submitViewList()") Hantar
       
     #listing.col-sm-12.col-md-6
       #pageHeader
@@ -70,7 +68,7 @@ block content
                   td(width="25%")
                     img.img-thumbnail.img-responsive(src!=job.publishImgUrl, alt="Post Image")
                   td(width="75%")
-                    .panel.panel-default
+                    .panel.panel-default.margin-bottom-sm
                       .panel-heading 
                         h4.panel-title 
                           a(role="button", href!=job.url)
