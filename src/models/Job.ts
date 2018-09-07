@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import moment from "moment";
+import { XmlEntities } from "html-entities";
 import * as selectOption  from "../util/selectOption";
 
 const Schema = mongoose.Schema;
@@ -9,6 +10,7 @@ export const POSTTYPE_FB = "FB";
 
 export type JobModel = mongoose.Document & {
   title: string,
+  titleEncoded: string,
   description: string,
   descriptionDisplay: string,
   employerName: string,
@@ -30,19 +32,20 @@ export type JobModel = mongoose.Document & {
   publishUrl: string,
   publishImgUrl: string,
   highlights: string,
+  highlightsEncoded: string,
   apiModel: any,
   postType: string,
   fbPostUrl: string
 };
 
 const jobSchema = new mongoose.Schema({
-  title: { type: String, uppercase: true },
+  title: { type: String },
   description: String,
-  employerName: { type: String, uppercase: true },
+  employerName: { type: String },
   applyMethod: String,
   salary: String,
   location: [String],
-  closing: { type: String, uppercase: true },
+  closing: { type: String },
   publishStart: Date,
   publishEnd: Date,
   weight: { type: Number, default: 5 },
@@ -163,6 +166,22 @@ jobSchema
 .virtual("applyMethodDisplay")
 .get(function () {
     return this.applyMethod ? this.applyMethod.replace(/\n/g, "<br/>") : "";
+});
+
+// Virtual for Job's Title for social sharing data exchange
+jobSchema
+.virtual("titleEncoded")
+.get(function() {
+    const entities = new XmlEntities();
+    return this.title ?  encodeURIComponent(entities.decode(this.title)) : "" ;
+});
+
+// Virtual for Job's highlights for social sharing data exchange
+jobSchema
+.virtual("highlightsEncoded")
+.get(function() {
+    const entities = new XmlEntities();
+    return this.highlights ?  encodeURIComponent(entities.decode(this.highlights)) : "" ;
 });
 
 const Job = mongoose.model("Job", jobSchema);
