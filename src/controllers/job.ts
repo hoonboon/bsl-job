@@ -129,8 +129,8 @@ export let getJobDetail = (req: Request, res: Response, next: NextFunction) => {
                 const metaFb = generateMetaFacebook({
                     url: jobDb.publishUrl,
                     type: "article",
-                    title: jobDb.titleEncoded,
-                    description: jobDb.highlightsEncoded,
+                    title: jobDb.title,
+                    description: jobDb.highlights,
                     imageUrl: jobDb.publishImgUrl
                 });
 
