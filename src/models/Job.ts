@@ -29,13 +29,15 @@ export type JobModel = mongoose.Document & {
   updatedBy: any,
   url: string,
   imgUrl: string,
+  imgUrlDecoded: string,
   publishUrl: string,
   publishImgUrl: string,
   highlights: string,
   highlightsDecoded: string,
   apiModel: any,
   postType: string,
-  fbPostUrl: string
+  fbPostUrl: string,
+  fbPostUrlDecoded: string
 };
 
 const jobSchema = new mongoose.Schema({
@@ -107,7 +109,7 @@ jobSchema
 .virtual("publishImgUrl")
 .get(function() {
     const baseUrl = process.env.PUBLIC_SITE || "";
-    const imgUrl = this.imgUrl || baseUrl + "/images/fbProfilePhoto2.jpg";
+    const imgUrl = this.imgUrlDecoded || baseUrl + "/images/fbProfilePhoto2.jpg";
     return imgUrl;
 });
 
@@ -182,6 +184,22 @@ jobSchema
 .get(function() {
     const entities = new XmlEntities();
     return this.highlights ?  entities.decode(this.highlights) : "" ;
+});
+
+// Virtual for Job's image Url for social sharing data exchange
+jobSchema
+.virtual("imgUrlDecoded")
+.get(function() {
+    const entities = new XmlEntities();
+    return this.imgUrl ?  entities.decode(this.imgUrl) : "" ;
+});
+
+// Virtual for Job's Facebook Post Url for social sharing data exchange
+jobSchema
+.virtual("fbPostUrlDecoded")
+.get(function() {
+    const entities = new XmlEntities();
+    return this.fbPostUrl ?  entities.decode(this.fbPostUrl) : "" ;
 });
 
 const Job = mongoose.model("Job", jobSchema);

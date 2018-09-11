@@ -50,7 +50,7 @@
   .panel-footer
     if (job.postType == 'FB')
       .addthis_inline_share_toolbox(
-        data-url!=job.fbPostUrl, 
+        data-url!=job.fbPostUrlDecoded, 
         data-title!=job.titleDecoded, 
         data-media!=job.publishImgUrl
       )
