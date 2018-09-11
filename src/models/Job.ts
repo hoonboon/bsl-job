@@ -10,7 +10,7 @@ export const POSTTYPE_FB = "FB";
 
 export type JobModel = mongoose.Document & {
   title: string,
-  titleEncoded: string,
+  titleDecoded: string,
   description: string,
   descriptionDisplay: string,
   employerName: string,
@@ -32,7 +32,7 @@ export type JobModel = mongoose.Document & {
   publishUrl: string,
   publishImgUrl: string,
   highlights: string,
-  highlightsEncoded: string,
+  highlightsDecoded: string,
   apiModel: any,
   postType: string,
   fbPostUrl: string
@@ -170,18 +170,18 @@ jobSchema
 
 // Virtual for Job's Title for social sharing data exchange
 jobSchema
-.virtual("titleEncoded")
+.virtual("titleDecoded")
 .get(function() {
     const entities = new XmlEntities();
-    return this.title ?  encodeURIComponent(entities.decode(this.title)) : "" ;
+    return this.title ?  entities.decode(this.title) : "" ;
 });
 
 // Virtual for Job's highlights for social sharing data exchange
 jobSchema
-.virtual("highlightsEncoded")
+.virtual("highlightsDecoded")
 .get(function() {
     const entities = new XmlEntities();
-    return this.highlights ?  encodeURIComponent(entities.decode(this.highlights)) : "" ;
+    return this.highlights ?  entities.decode(this.highlights) : "" ;
 });
 
 const Job = mongoose.model("Job", jobSchema);

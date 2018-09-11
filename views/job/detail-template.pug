@@ -51,13 +51,13 @@
     if (job.postType == 'FB')
       .addthis_inline_share_toolbox(
         data-url!=job.fbPostUrl, 
-        data-title!=job.titleEncoded, 
+        data-title!=job.titleDecoded, 
         data-media!=job.publishImgUrl
       )
     else 
       .addthis_inline_share_toolbox(
         data-url!=job.publishUrl, 
-        data-title=job.titleEncoded, 
-        data-description=job.highlightsEncoded, 
+        data-title!=job.titleDecoded, 
+        data-description!=job.highlightsDecoded,
         data-media!=job.publishImgUrl
       )

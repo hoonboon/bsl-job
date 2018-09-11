@@ -12,7 +12,7 @@ html(lang='')
     //- Facebook data
     if metaFb
       each meta in metaFb
-        meta(property=meta.property, content=meta.content)
+        meta(property=meta.property, content!=meta.content)
 
     link(rel='shortcut icon', href='/images/favicon.png')
     link(rel='stylesheet', href='/css/main.css')
