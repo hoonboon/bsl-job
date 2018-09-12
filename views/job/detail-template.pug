@@ -40,6 +40,7 @@
       tr
         th
           label.control-label Cara Memohon
+          a.btn.btn-primary.margin-xs.copyToClipboard.pull-right(href='#', data-clipboard-text!=job.applyMethod) Copy
       tr
         td
           | !{job.applyMethodDisplay}

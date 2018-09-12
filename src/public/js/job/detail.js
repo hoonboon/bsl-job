@@ -12,6 +12,9 @@ $(document).ready(function() {
     } else {
         $("#btnGoBack").hide();
     }
+
+    new ClipboardJS(".copyToClipboard");
+    
 });
 
 function decodeEntities(encodedString) {
