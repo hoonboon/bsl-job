@@ -44,7 +44,7 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
 
     // other filters
     if (searchTitle) {
-        const regex = new RegExp(searchTitle.toUpperCase().replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"));
+        const regex = new RegExp(searchTitle.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"), "i");
         query.where("title").regex(regex);
     }
 
