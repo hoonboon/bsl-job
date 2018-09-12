@@ -118,7 +118,7 @@ export let getJobDetail = (req: Request, res: Response, next: NextFunction) => {
 
         if (jobDb) {
             // client side script
-            const includeScripts = ["/js/lib/clipboard.min.js", "/js/job/detail.js"];
+            const includeScripts = ["/js/job/detail.js"];
 
             if (isJSON) {
                 const result: any = {};
