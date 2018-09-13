@@ -85,7 +85,7 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
             const baseUrl = process.env.PUBLIC_SITE || "";
             const imgUrl = baseUrl + "/images/fbProfilePhoto2.jpg";
             const metaFb = generateMetaFacebook({
-                url: "/jobs",
+                url: "jobs",
                 type: "article",
                 title: ogTitle,
                 description: "Nok cari kijo kat Kelate? Orghe Kelate nok cari kijo kat luar? Acu tra cari kat sini.",
