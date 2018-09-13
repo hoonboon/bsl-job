@@ -80,6 +80,18 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
             const locationOptions = selectOption.OPTIONS_LOCATION();
             selectOption.markSelectedOptions(searchLocation, locationOptions);
 
+            // meta for facebook
+            const ogTitle = searchTitle ? `${searchTitle} - Senarai Jawatan` : "Senarai Jawatan Kosong di Kelantan";
+            const baseUrl = process.env.PUBLIC_SITE || "";
+            const imgUrl = baseUrl + "/images/fbProfilePhoto2.jpg";
+            const metaFb = generateMetaFacebook({
+                url: "/jobs",
+                type: "article",
+                title: ogTitle,
+                description: "Nok cari kijo kat Kelate? Orghe Kelate nok cari kijo kat luar? Acu tra cari kat sini.",
+                imageUrl: imgUrl
+            });
+
             // client side script
             const includeScripts = ["/js/job/list.js", "/js/util/pagination.js"];
 
@@ -92,7 +104,8 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
                 includeScripts: includeScripts,
                 pageNoOptions: pageNoOptions,
                 pageInfo: pageInfo,
-                locationOptions: locationOptions
+                locationOptions: locationOptions,
+                metaFb: metaFb,
             });
         })
         .catch(function(error) {
