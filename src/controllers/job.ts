@@ -83,13 +83,13 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
             // meta for facebook
             const ogTitle = searchTitle ? `${searchTitle} - Senarai Jawatan` : "Senarai Jawatan Kosong di Kelantan";
             const baseUrl = process.env.PUBLIC_SITE || "";
-            const imgUrl = baseUrl + "/images/fbProfilePhoto2.jpg";
+
             const metaFb = generateMetaFacebook({
-                url: "jobs",
+                url: baseUrl + "/jobs",
                 type: "article",
                 title: ogTitle,
                 description: "Nok cari kijo kat Kelate? Orghe Kelate nok cari kijo kat luar? Acu tra cari kat sini.",
-                imageUrl: imgUrl
+                imageUrl: baseUrl + "/images/fbProfilePhoto2.jpg"
             });
 
             // client side script
