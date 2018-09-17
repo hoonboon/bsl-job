@@ -49,7 +49,7 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
     }
 
     if (searchLocation && searchLocation.length > 0) {
-        query.where("location").in(searchLocation);
+        query.where("location.code").in(searchLocation);
     }
 
     query.where("status").in(["A"]);
