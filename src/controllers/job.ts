@@ -1,7 +1,7 @@
 import moment from "moment";
 import { Request, Response, NextFunction } from "express";
 
-import { default as Job, JobModel } from "../models/Job";
+import { default as JobModel, IJob } from "../models/Job";
 
 import { PageInfo, getNewPageInfo } from "../util/pagination";
 import { generateMetaFacebook } from "../util/social";
@@ -33,7 +33,7 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
 
     const rowPerPage: number = DEFAULT_ROW_PER_PAGE; // hard-coded
 
-    const query = Job.find();
+    const query = JobModel.find();
 
     // default filter
     // show posts with:
@@ -119,8 +119,8 @@ export let getJobs = (req: Request, res: Response, next: NextFunction) => {
  * View Job Detail page.
  */
 export let getJobDetail = (req: Request, res: Response, next: NextFunction) => {
-    Job.findById(req.params.id)
-    .exec((err, jobDb: JobModel) => {
+    JobModel.findById(req.params.id)
+    .exec((err, jobDb: IJob) => {
         if (err) { return next(err); }
 
         const reqAccept = req.headers.accept;
