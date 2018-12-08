@@ -2,14 +2,14 @@ import bcrypt from "bcrypt-nodejs";
 import crypto from "crypto";
 import mongoose from "mongoose";
 
-export type UserModel = mongoose.Document & {
-  email: string,
-  password: string,
-  passwordResetToken: string,
-  passwordResetExpires: Date,
+export interface IUser extends mongoose.Document {
+  email: string;
+  password: string;
+  passwordResetToken: string;
+  passwordResetExpires: Date;
 
-  facebook: string,
-  tokens: AuthToken[],
+  facebook: string;
+  tokens: AuthToken[];
 
   profile: {
     name: string,
@@ -17,20 +17,20 @@ export type UserModel = mongoose.Document & {
     location: string,
     website: string,
     picture: string
-  },
+  };
 
-  comparePassword: comparePasswordFunction,
-  gravatar: (size: number) => string
-};
+  comparePassword: comparePasswordFunction;
+  gravatar: (size: number) => string;
+}
 
-type comparePasswordFunction = (candidatePassword: string, cb: (err: any, isMatch: any) => {}) => void;
+type comparePasswordFunction = (candidatePassword: string, cb: (err: any, isMatch: boolean) => {}) => void;
 
 export type AuthToken = {
   accessToken: string,
   kind: string
 };
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
   passwordResetToken: String,
@@ -53,8 +53,8 @@ const userSchema = new mongoose.Schema({
 /**
  * Password hash middleware.
  */
-userSchema.pre("save", function save(next) {
-  const user = this;
+UserSchema.pre("save", function save(next) {
+  const user = this as IUser;
   if (!user.isModified("password")) { return next(); }
   bcrypt.genSalt(10, (err, salt) => {
     if (err) { return next(err); }
@@ -72,12 +72,12 @@ const comparePassword: comparePasswordFunction = function (candidatePassword, cb
   });
 };
 
-userSchema.methods.comparePassword = comparePassword;
+UserSchema.methods.comparePassword = comparePassword;
 
 /**
  * Helper method for getting user's gravatar.
  */
-userSchema.methods.gravatar = function (size: number) {
+UserSchema.methods.gravatar = function (size: number) {
   if (!size) {
     size = 200;
   }
@@ -89,5 +89,5 @@ userSchema.methods.gravatar = function (size: number) {
 };
 
 // export const User: UserType = mongoose.model<UserType>('User', userSchema);
-const User = mongoose.model("User", userSchema);
-export default User;
+const UserModel = mongoose.model<IUser>("User", UserSchema);
+export default UserModel;
