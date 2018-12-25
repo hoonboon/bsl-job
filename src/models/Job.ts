@@ -82,6 +82,22 @@ JobSchema
     return this.publishStart ? moment(this.publishStart).format("YYYY-MM-DD") : "?";
 });
 
+JobSchema
+.virtual("publishStartDisplayFromNow")
+.get(function () {
+    if (this.publishStart) {
+        const publishStartMoment = moment(this.publishStart);
+        const diff = moment().diff(publishStartMoment, "days");
+        if (diff >= 7) {
+            return "Published on " + this.publishStartDisplay;
+        } else {
+            return "Published " + publishStartMoment.fromNow();
+        }
+    } else {
+        return "?";
+    }
+});
+
 // Virtual for Publish End Date for display
 JobSchema
 .virtual("publishEndDisplay")
