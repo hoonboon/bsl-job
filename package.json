@@ -2,8 +2,8 @@
   "name": "bsl-job",
   "version": "0.1.0",
   "engines": {
-    "node": "8.11.4",
-    "npm": "5.6.0"
+    "node": "8.11.3",
+    "npm": "6.3.0"
   },
   "description": "BSL - Job Search modules",
   "repository": {
