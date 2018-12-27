@@ -83,16 +83,10 @@ JobSchema
 });
 
 JobSchema
-.virtual("publishStartDisplayFromNow")
+.virtual("publishStartDisplayLong")
 .get(function () {
     if (this.publishStart) {
-        const publishStartMoment = moment(this.publishStart);
-        const diff = moment().diff(publishStartMoment, "days");
-        if (diff >= 7) {
-            return "Published on " + this.publishStartDisplay;
-        } else {
-            return "Published " + publishStartMoment.fromNow();
-        }
+        return "Published on " + moment(this.publishStart).format("D MMMM YYYY");
     } else {
         return "?";
     }
