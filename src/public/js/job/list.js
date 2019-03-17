@@ -12,6 +12,18 @@ $(document).ready(function() {
 
     updateSearchLocationDisplay();
 
+    $("#searchTitle").keypress(function(event) {
+        let keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if ($("#searchTitle").val() == "") {
+                alert("Sila masukkan Nama Jawatan untuk Carian.");
+                return false;
+            } else {
+                submitViewList();
+            }
+        }
+    });
+
     // TODO: use this event handler when infinite scrolling is implemented
     // $(window).on('load resize scroll', function () {
     //     // $('.custom-content').each(function () {
