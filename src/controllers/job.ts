@@ -6,6 +6,7 @@ import { default as JobModel, IJob } from "../models/Job";
 import { PageInfo, getNewPageInfo } from "../util/pagination";
 import { generateMetaFacebook } from "../util/social";
 import * as selectOption from "../util/selectOption";
+import { isUnderMaintenace } from "../util/logger";
 
 const DEFAULT_ROW_PER_PAGE: number = 20;
 
@@ -14,6 +15,13 @@ const DEFAULT_ROW_PER_PAGE: number = 20;
  * Job listing page.
  */
 export let getJobs = (req: Request, res: Response, next: NextFunction) => {
+    if (isUnderMaintenace()) {
+        res.render("underMaintenance", {
+            title: "Jawatan",
+        });
+        return;
+    }
+
     const searchTitle: string = req.query.searchTitle;
 
     if (!(req.query.searchLocation instanceof Array)) {

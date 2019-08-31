@@ -15,3 +15,11 @@ if (process.env.NODE_ENV !== "production") {
 
 export default logger;
 
+export function isUnderMaintenace() {
+    let result = false;
+    const maintenanceMode = process.env.MAINTENANCE_MODE;
+    if (maintenanceMode === "Y") {
+        result = true;
+    }
+    return result;
+}
