@@ -19,6 +19,7 @@ export interface IJob extends mongoose.Document {
   description: string;
   descriptionDisplay: string;
   employerName: string;
+  employer: any;
   applyMethod: string;
   applyMethodDisplay: string;
   salary: string;
@@ -55,6 +56,7 @@ const JobSchema = new mongoose.Schema({
   title: { type: String },
   description: String,
   employerName: { type: String },
+  employer: { type: Schema.Types.ObjectId, ref: "employer" },
   applyMethod: String,
   salary: String,
   location: [{
@@ -86,7 +88,11 @@ JobSchema
 .virtual("publishStartDisplayLong")
 .get(function () {
     if (this.publishStart) {
-        return "Published on " + moment(this.publishStart).format("D MMMM YYYY");
+        let result = "Tarikh Terbit: " + moment(this.publishStart).format("D MMMM YYYY");
+        if (moment().isAfter(moment(this.publishEnd))) {
+            result += " (Tamat Tempoh)";
+        }
+        return result;
     } else {
         return "?";
     }
@@ -273,5 +279,5 @@ const getAreaByLocationCode: getAreaByLocationCodeFunc = function (locationCode)
 
 JobSchema.methods.getAreaByLocationCode = getAreaByLocationCode;
 
-const JobModel = mongoose.model<IJob>("Job", JobSchema);
+const JobModel = mongoose.model<IJob>("job", JobSchema);
 export default JobModel;

@@ -20,8 +20,14 @@
           | !{job.title}
         h4.text-center
           | !{job.employerName}
+          if job.employer
+            | 
+            a(href='#', onclick='showEmployerProfile()' class='btn btn-primary')
+              span.glyphicon.glyphicon-search
         h5.text-center
           | Tempat Kerja: !{job.locationDisplay}
+        .text-center.small
+          | !{job.publishStartDisplayLong}
     table.post-detail.table
       if job.description
         tr
@@ -61,3 +67,32 @@
         data-description!=job.highlightsDecoded,
         data-media!=job.publishImgUrl
       )
+
+if (job.employer)
+  #employerModal.modal.fade(tabindex='-1')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span &times;
+          h4 Profil Majikan
+        .modal-body
+          .form-horizontal
+            .form-group
+              label.col-sm-3.col-xs-4.control-label Nama Majikan
+              .col-sm-7.col-xs-8
+                .form-control-static !{job.employer.name}
+            .form-group
+              label.col-sm-3.col-xs-4.control-label Tentang Majikan
+              .col-sm-7.col-xs-8
+                .form-control-static !{job.employer.about}
+            .form-group
+              label.col-sm-3.col-xs-4.control-label Saiz Tenaga Kerja
+              .col-sm-7.col-xs-8
+                .form-control-static !{job.employer.employeeSizeDisplay}
+            .form-group
+              label.col-sm-3.col-xs-4.control-label Hubungi Majikan
+              .col-sm-7.col-xs-8
+                .form-control-static !{job.employer.contact}
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Tutup
