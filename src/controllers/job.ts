@@ -68,10 +68,12 @@ export let getJobs = async (req: Request, res: Response, next: NextFunction) => 
         query.where("status").in(["A"]);
 
         let pageInfo: PageInfo;
+        let recordCount = 0;
+        let item_list: any;
 
-        const count = await query.countDocuments();
-        if (count > 0) {
-            pageInfo = getNewPageInfo(count, rowPerPage, newPageNo);
+        recordCount = await query.countDocuments();
+        if (recordCount > 0) {
+            pageInfo = getNewPageInfo(recordCount, rowPerPage, newPageNo);
 
             query.find();
             query.populate("job");
@@ -79,44 +81,48 @@ export let getJobs = async (req: Request, res: Response, next: NextFunction) => 
             query.limit(rowPerPage);
             query.sort([["weight", "descending"], ["publishStart", "descending"], ["createdAt", "descending"]]);
 
-            const item_list = await query.exec();
-            let pageNoOptions;
-            if (pageInfo) {
-                pageNoOptions = selectOption.OPTIONS_PAGE_NO(pageInfo.totalPageNo);
-                selectOption.markSelectedOption(pageInfo.curPageNo.toString(), pageNoOptions);
-            }
-
-            const locationOptions = selectOption.OPTIONS_LOCATION();
-            selectOption.markSelectedOptions(searchLocation, locationOptions);
-
-            // meta for facebook
-            const ogTitle = searchTitle ? `${searchTitle} - Senarai Jawatan` : "Senarai Jawatan Kosong di Kelantan";
-            const baseUrl = process.env.PUBLIC_SITE || "";
-
-            const metaFb = generateMetaFacebook({
-                url: baseUrl + req.originalUrl,
-                type: "article",
-                title: ogTitle,
-                description: "Nok cari kijo kat Kelate? Orghe Kelate nok cari kijo kat luar? Acu tra cari kat sini.",
-                imageUrl: baseUrl + "/images/fbProfilePhoto2.jpg"
-            });
-
-            // client side script
-            const includeScripts = ["/js/job/list.js", "/js/util/pagination.js"];
-
-            res.render("job/list", {
-                title: "Jawatan",
-                title2: "Senarai Jawatan Kosong di Kelantan",
-                job_list: item_list,
-                searchTitle: searchTitle,
-                searchLocation: searchLocation,
-                includeScripts: includeScripts,
-                pageNoOptions: pageNoOptions,
-                pageInfo: pageInfo,
-                locationOptions: locationOptions,
-                metaFb: metaFb,
-            });
+            item_list = await query.exec();
         }
+
+        if (!pageInfo)
+            pageInfo = getNewPageInfo(recordCount, rowPerPage, newPageNo);
+
+        let pageNoOptions;
+        if (pageInfo) {
+            pageNoOptions = selectOption.OPTIONS_PAGE_NO(pageInfo.totalPageNo);
+            selectOption.markSelectedOption(pageInfo.curPageNo.toString(), pageNoOptions);
+        }
+
+        const locationOptions = selectOption.OPTIONS_LOCATION();
+        selectOption.markSelectedOptions(searchLocation, locationOptions);
+
+        // meta for facebook
+        const ogTitle = searchTitle ? `${searchTitle} - Senarai Jawatan` : "Senarai Jawatan Kosong di Kelantan";
+        const baseUrl = process.env.PUBLIC_SITE || "";
+
+        const metaFb = generateMetaFacebook({
+            url: baseUrl + req.originalUrl,
+            type: "article",
+            title: ogTitle,
+            description: "Nok cari kijo kat Kelate? Orghe Kelate nok cari kijo kat luar? Acu tra cari kat sini.",
+            imageUrl: baseUrl + "/images/fbProfilePhoto2.jpg"
+        });
+
+        // client side script
+        const includeScripts = ["/js/job/list.js", "/js/util/pagination.js"];
+
+        res.render("job/list", {
+            title: "Jawatan",
+            title2: "Senarai Jawatan Kosong di Kelantan",
+            job_list: item_list,
+            searchTitle: searchTitle,
+            searchLocation: searchLocation,
+            includeScripts: includeScripts,
+            pageNoOptions: pageNoOptions,
+            pageInfo: pageInfo,
+            locationOptions: locationOptions,
+            metaFb: metaFb,
+        });
 
     } catch (err) {
         logger.error((<Error>err).stack);
