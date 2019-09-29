@@ -10,20 +10,20 @@ import flash from "express-flash";
 import path from "path";
 import mongoose from "mongoose";
 import expressValidator from "express-validator";
-import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
 
 const MongoDbStore = connect(session);
 
 // Load environment variables from .env file, where API keys and passwords are configured
-dotenv.config({ path: ".env.example" });
+dotenv.config({ path: ".env" });
+
+import { Logger } from "./util/logger";
+import { MONGODB_URI, SESSION_SECRET, ENVIRONMENT } from "./util/secrets";
 
 // Controllers (route handlers)
 import * as homeController from "./controllers/home";
 import * as jobController from "./controllers/job";
 
-
-// API keys and Passport configuration
-import * as passportConfig from "./config/passport";
+const logger = new Logger("app");
 
 // Create Express server
 const app = express();
@@ -39,17 +39,20 @@ app.locals.addThisId = process.env.ADDTHIS_ID || "";
 const mongoUrl = MONGODB_URI;
 const mongoConnectOpts = {
   useNewUrlParser: true,
-  useCreateIndex: true,
+  useCreateIndex: false,
   autoReconnect: true,
   poolSize: 20,
 };
- mongoose.connect(mongoUrl, mongoConnectOpts).then(
+
+mongoose.set("debug", ENVIRONMENT === "production" ? false : true);
+
+mongoose.connect(mongoUrl, mongoConnectOpts).then(
   () => {
     /** ready to use. The `mongoose.connect()` promise resolves to undefined. */
-    console.log("MongoDB connected.");
+    logger.info("MongoDB connected.");
   },
 ).catch(err => {
-  console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
+  logger.error("MongoDB connection error. Please make sure MongoDB is running. " + err);
   // process.exit();
 });
 
@@ -98,12 +101,14 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
- // error handler
+
+// error handler
 app.use(function(err: any, req: any, res: any, next: any) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-   // render the error page
+  res.locals.error = ENVIRONMENT === "production" ? {} : err;
+
+  // render the error page
   res.status(err.status || 500);
   res.render("error");
 });

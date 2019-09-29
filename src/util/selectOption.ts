@@ -1,3 +1,5 @@
+import { EMPLOYEESIZE_5, EMPLOYEESIZE_20, EMPLOYEESIZE_50, EMPLOYEESIZE_999 } from "../models/Employer";
+
 export interface SelectOption {
     label: string;
     value: string;
@@ -68,6 +70,16 @@ export function OPTIONS_PAGE_NO(totalPageNo: number) {
         }
     }
     return result;
+}
+
+// Employee Sizes
+export function OPTIONS_EMPLOYEE_SIZE() {
+    return [
+        { label: "5 atau kurang", value: EMPLOYEESIZE_5 },
+        { label: "Antara 6 dan 20", value: EMPLOYEESIZE_20 },
+        { label: "Antara 21 dan 50", value: EMPLOYEESIZE_50 },
+        { label: "51 atau lebih", value: EMPLOYEESIZE_999 },
+    ] as SelectOption[];
 }
 
 export function markSelectedOption(selectedValue: string, options: SelectOption[]) {

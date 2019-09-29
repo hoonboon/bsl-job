@@ -23,3 +23,7 @@ function decodeEntities(encodedString) {
 function goBack() {
     window.history.back();
 }
+
+function showEmployerProfile() {
+    $("#employerModal").modal("show");
+}

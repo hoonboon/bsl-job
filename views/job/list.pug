@@ -52,38 +52,38 @@ block content
       if job_list
         table.post-list
           tbody
-            each job in job_list
-              if (job.postType == 'FB')
+            each publishedJob in job_list
+              if (publishedJob.job.postType == 'FB')
                 tr
                   td(colspan="2", width="100%")
                     .panel.panel-default
                       .panel-heading 
                         h4.panel-title 
-                          strong !{job.title}
+                          strong !{publishedJob.job.title}
                       .panel-body
                         .text-center
-                          .fb-post(data-href!=job.fbPostUrl)
+                          .fb-post(data-href!=publishedJob.job.fbPostUrl)
               else
                 tr
                   td(width="25%")
-                    img.img-thumbnail.img-responsive(src!=job.publishImgUrl, alt="Post Image")
+                    img.img-thumbnail.img-responsive(src!=publishedJob.job.publishImgUrl, alt="Post Image")
                   td(width="75%")
                     .panel.panel-default.margin-bottom-sm
                       .panel-heading 
                         h4.panel-title 
-                          a(role="button", href!=job.url)
-                            strong !{job.title}
+                          a(role="button", href!=publishedJob.job.url)
+                            strong !{publishedJob.title}
                       table.table.table-condensed
                         tr
                           td(width='100%')
-                            | !{job.employerName}
-                        if job.locationDisplay
+                            | !{publishedJob.job.employerName}
+                        if publishedJob.job.locationDisplay
                           tr
                             td 
-                              | !{job.locationDisplay}
+                              | !{publishedJob.job.locationDisplay}
                         tr
-                          td(width='100%')
-                            | #{job.publishStartDisplayLong}
+                          td.small(width='100%')
+                            | #{publishedJob.job.publishStartDisplayLong}
           tfoot
             tr
               td(colspan="2")
