@@ -90,4 +90,5 @@ export function isUnderMaintenace() {
     if (maintenanceMode === "Y") {
         result = true;
     }
+    return result;
 }
